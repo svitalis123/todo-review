@@ -43,13 +43,17 @@ main {
 
 .lists_li {
   display: flex;
+  background-color: #fff;
+}
+
+.lists_li:focus {
+  background-color: yellow;
 }
 
 .list_li_inputs {
   flex: 1;
   display: flex;
   gap: 1rem;
-  background-color: #fff;
   padding: 1rem;
 }
 
@@ -107,4 +111,11 @@ main {
   height: 30px;
   border: none;
   cursor: pointer;
+}
+
+.inputssc {
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
 }

@@ -7,12 +7,12 @@ let mydata = JSON.parse(localStorage.getItem('newdata')) ? JSON.parse(localStora
 const loadData = () => {
   const sortedData = mydata.sort((a, b) => a.index - b.index);
   const useData = sortedData.map((dat) => `
-    <div class="lists_li">
+    <div class="lists_li" tabindex="-1" onmouseleave="handleClicker2(${dat.index})"  onmouseenter="handleClicker(${dat.index})" id="older${dat.index}" >
       <div class="list_li_inputs"  >
-        <input type="checkbox" name="" id="${dat.index}" onchange="handleChange(${dat.index})" value="${dat.completed}">
-        <label for="${dat.index}"id="label${dat.index}" >${dat.description}</label>
+        <input type="checkbox" name="${dat.description}"  id="${dat.index}" onchange="handleChange(${dat.index})" value="${dat.completed}" enabled>
+        <input class="inputssc" onchange="hanleChanging(${dat.index})" id="label${dat.index}" value="${dat.description}"/> 
       </div>
-      <div class="make_dots" onclick="removeBlock(${dat.index})">
+      <div class="make_dots" id="makedots${dat.index}" onclick="removeBlock(${dat.index})">
         <div class="dots"></div>
         <div class="dots"></div>
         <div class="dots"></div>
@@ -36,6 +36,7 @@ const addNewData = (obj) => {
 
 const removeBlock = (id) => {
   const themydata = mydata.filter((item) => item.index !== id);
+  themydata.forEach((themydata, length) => { themydata.index = length; });
   mydata = themydata;
   addToLocal('newdata', themydata);
   loadData();
@@ -55,6 +56,30 @@ const handleChange = (s) => {
     falsetoggle(mydata, s);
     addToLocal('newdata', mydata);
   }
+};
+
+const hanleChanging = (id) => {
+  const boos = document.getElementById(`label${id}`);
+  for (let ite = 0; ite < mydata.length; ite += 1) {
+    if (mydata[ite].index === id) {
+      mydata[ite].description = boos.value;
+    }
+  }
+  addToLocal('newdata', mydata);
+};
+
+const handleClicker = (p) => {
+  const ds = document.getElementById(`older${p}`);
+  ds.style.backgroundColor = 'yellow';
+  const sd = document.getElementById(`makedots${p}`);
+  sd.innerHTML = '☒';
+};
+
+const handleClicker2 = (p) => {
+  const ds = document.getElementById(`older${p}`);
+  ds.style.backgroundColor = '#fff';
+  const sd = document.getElementById(`makedots${p}`);
+  sd.innerHTML = '<div class="dots"></div>  <div class="dots"></div><div class="dots"></div>';
 };
 
 // on click form
@@ -82,3 +107,6 @@ clearall.addEventListener('click', () => {
 });
 window.removeBlock = removeBlock;
 window.handleChange = handleChange;
+window.hanleChanging = hanleChanging;
+window.handleClicker = handleClicker;
+window.handleClicker2 = handleClicker2;
